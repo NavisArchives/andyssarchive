@@ -1,0 +1,3 @@
+const carousel=document.querySelector('#carousel');
+document.querySelectorAll('[data-dir]').forEach(b=>b.addEventListener('click',()=>carousel.scrollBy({left:b.dataset.dir*carousel.clientWidth*.75,behavior:'smooth'})));
+document.querySelectorAll('[data-filter]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const f=btn.dataset.filter;document.querySelectorAll('.work-card').forEach(card=>card.hidden=f!=='all'&&card.dataset.category!==f);carousel.scrollTo({left:0,behavior:'smooth'});}));

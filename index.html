@@ -3,38 +3,49 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Andyssarchives — UGC, travel content and event hosting." />
-  <title>Andyssarchives — Creator & Host</title>
+  <meta name="description" content="andyssarchives — UGC, travel content and event hosting." />
+  <title>andyssarchives — UGC · Travel · Hosting</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="script.js" defer></script>
 </head>
 <body>
-  <header class="nav shell">
+  <header class="nav shell" id="site-header">
     <a class="brand" href="#top">andyssarchives</a>
-    <nav aria-label="Primary navigation">
+
+    <nav class="desktop-nav" aria-label="Primary navigation">
       <a href="#videos">Videos</a>
       <a href="#photos">Photos</a>
       <a href="#hosting">Hosting</a>
     </nav>
-    <a class="nav-cta" href="#contact">Let’s work together</a>
+
+    <a class="nav-cta desktop-cta" href="#contact">Let’s work together</a>
+
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="line line-1"></span>
+      <span class="line line-2"></span>
+      <span class="line line-3"></span>
+    </button>
+
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <nav aria-label="Mobile navigation">
+        <a href="#videos">Videos</a>
+        <a href="#photos">Photos</a>
+        <a href="#hosting">Hosting</a>
+        <a href="#contact">Let’s work together</a>
+      </nav>
+    </div>
   </header>
 
   <main id="top">
     <section class="hero shell">
-      <div class="hero-title">
-        <p class="eyebrow">UGC · Travel · Hosting</p>
-        <h1>andyss<br />archives</h1>
+      <div class="hero-top">
+        <p class="eyebrow">UGC · TRAVEL · HOSTING</p>
+        <h1 class="wordmark">andyss<br>archives</h1>
+        <p class="lede">I create natural, story-led content for brands, hotels and places — and host experiences in person.</p>
       </div>
-      <div class="hero-copy">
-        <p>I create natural, story-led content for brands, hotels and places — and host experiences in person.</p>
-        <div class="meta">
-          <span>Based in Belgium · available internationally</span>
-          <span>Video · Photo · On-site hosting</span>
-        </div>
-      </div>
-      <div class="portrait placeholder" aria-label="Add portrait or featured visual here">
-        <span>Add featured visual</span>
-      </div>
+      <figure class="hero-media placeholder" aria-hidden="true">
+        <span>Featured visual</span>
+      </figure>
     </section>
 
     <section class="brands shell" aria-label="Selected collaborations">
@@ -46,30 +57,71 @@
 
     <section class="work shell" id="videos">
       <div class="section-head">
-        <div><p class="section-label">Videos I’ve created</p><h2>My work</h2></div>
-        <div class="arrows"><button data-dir="-1" aria-label="Previous">←</button><button data-dir="1" aria-label="Next">→</button></div>
+        <div>
+          <p class="section-label">Videos I’ve created</p>
+          <h2>My work</h2>
+        </div>
+        <div class="arrows">
+          <button class="arrow" data-dir="-1" aria-label="Previous">‹</button>
+          <button class="arrow" data-dir="1" aria-label="Next">›</button>
+        </div>
       </div>
 
-      <div class="carousel" id="carousel" tabindex="0">
-        <article class="work-card" data-category="ugc"><div class="media placeholder tall"><span>UGC video 01</span></div><p>UGC · Product story</p></article>
-        <article class="work-card" data-category="travel"><div class="media placeholder tall"><span>Hotel / place video</span></div><p>Travel · Hospitality</p></article>
-        <article class="work-card" data-category="ugc"><div class="media placeholder tall"><span>UGC video 02</span></div><p>UGC · Talking head</p></article>
-        <article class="work-card" data-category="travel"><div class="media placeholder tall"><span>Destination video</span></div><p>Travel · Destination</p></article>
+      <div class="filters" role="tablist" aria-label="Filter videos">
+        <button class="chip active" data-filter="all" role="tab" aria-selected="true">All</button>
+        <button class="chip" data-filter="ugc" role="tab" aria-selected="false">UGC</button>
+        <button class="chip" data-filter="travel" role="tab" aria-selected="false">Travel & Hotels</button>
       </div>
 
-      <div class="filters" aria-label="Filter videos">
-        <button class="active" data-filter="all">All</button>
-        <button data-filter="ugc">UGC</button>
-        <button data-filter="travel">Travel & Hotels</button>
+      <div class="carousel" id="carousel" tabindex="0" aria-roledescription="carousel">
+        <article class="work-card" data-category="ugc">
+          <video preload="metadata" playsinline controls poster="assets/videos/poster-01.jpg" class="card-video">
+            <source src="assets/videos/sample-ugc.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="caption">UGC · Product story</p>
+        </article>
+
+        <article class="work-card" data-category="travel">
+          <video preload="metadata" playsinline controls poster="assets/videos/poster-02.jpg" class="card-video">
+            <source src="assets/videos/sample-travel.mp4" type="video/mp4">
+          </video>
+          <p class="caption">Travel · Hospitality</p>
+        </article>
+
+        <article class="work-card" data-category="ugc">
+          <video preload="metadata" playsinline controls poster="assets/videos/poster-03.jpg" class="card-video">
+            <source src="assets/videos/sample-ugc-2.mp4" type="video/mp4">
+          </video>
+          <p class="caption">UGC · Talking head</p>
+        </article>
+
+        <article class="work-card" data-category="travel">
+          <video preload="metadata" playsinline controls poster="assets/videos/poster-04.jpg" class="card-video">
+            <source src="assets/videos/sample-travel-2.mp4" type="video/mp4">
+          </video>
+          <p class="caption">Travel · Destination</p>
+        </article>
       </div>
     </section>
 
     <section class="photos shell" id="photos">
-      <div class="section-head"><div><p class="section-label">Gallery</p><h2>Photos</h2></div></div>
+      <div class="section-head">
+        <div>
+          <p class="section-label">Gallery</p>
+          <h2>Photos</h2>
+        </div>
+      </div>
       <div class="photo-grid">
-        <div class="placeholder photo"><span>Hotel / place photo</span></div>
-        <div class="placeholder photo"><span>Travel photo</span></div>
-        <div class="placeholder photo"><span>Hospitality photo</span></div>
+        <figure class="photo-item">
+          <img src="assets/photos/photo-01.jpg" loading="lazy" decoding="async" alt="Hotel interior"/>
+        </figure>
+        <figure class="photo-item">
+          <img src="assets/photos/photo-02.jpg" loading="lazy" decoding="async" alt="Destination landscape"/>
+        </figure>
+        <figure class="photo-item">
+          <img src="assets/photos/photo-03.jpg" loading="lazy" decoding="async" alt="Restaurant interior"/>
+        </figure>
       </div>
     </section>
 
@@ -90,11 +142,18 @@
     <section class="contact" id="contact">
       <div class="shell contact-inner">
         <p class="section-label">Have a project in mind?</p>
-        <h2>Let’s get<br />in touch.</h2>
-        <a class="contact-link" href="mailto:hello@example.com">hello@example.com ↗</a>
+        <h2>Let’s get<br>in touch.</h2>
+        <a class="contact-link" href="#">hello@example.com ↗</a>
         <div class="socials"><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">LinkedIn</a></div>
       </div>
     </section>
+
+    <div id="lightbox" class="lightbox" aria-hidden="true">
+      <div class="lightbox-inner" role="dialog" aria-modal="true">
+        <button class="lightbox-close" aria-label="Close">×</button>
+        <figure class="lightbox-figure"><img src="" alt=""/></figure>
+      </div>
+    </div>
   </main>
 
   <footer class="shell"><span>© 2026 andyssarchives</span><span>Independent creator portfolio</span></footer>

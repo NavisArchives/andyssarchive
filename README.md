@@ -197,3 +197,26 @@ JPG, transparent or on white, any aspect. Two things are handled for you:
   fixed height would make the stacked ones look tiny, so height is scaled by `1/√aspect` to
   hold the optical *area* roughly constant, capped at 172×52. The marquee also retimes itself
   to a steady ~62 px/s, so adding logos lengthens the loop instead of speeding it up.
+
+---
+
+## Search indexing
+
+Verified in Google Search Console as a **URL-prefix property** for
+`https://andyssarchives.com/`, using the `google-site-verification` meta tag in `index.html`.
+**Don't remove that tag** — verification is revoked if it disappears.
+
+- Sitemap `/sitemap.xml` submitted and reading Success.
+- Homepage submitted through URL Inspection → Request indexing.
+- IndexNow key at `/<key>.txt` for Bing and Yandex (Google doesn't support IndexNow).
+  Re-ping after a significant content change:
+
+  ```bash
+  KEY=$(basename "$(ls ./*.txt | grep -v robots)" .txt)
+  curl -sS -o /dev/null -w '%{http_code}\n' \
+    "https://api.indexnow.org/indexnow?url=https%3A%2F%2Fandyssarchives.com%2F&key=$KEY&keyLocation=https%3A%2F%2Fandyssarchives.com%2F$KEY.txt"
+  ```
+
+Google's file-based verification does **not** work here: Workers static assets strips `.html`
+and 307-redirects, so `/googleXXXX.html` never serves literally. The meta tag is the method to
+use. Same reason a `www` → apex redirect has to be a zone Redirect Rule rather than `_redirects`.

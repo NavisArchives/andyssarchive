@@ -14,6 +14,7 @@ rm -rf dist
 mkdir -p dist/assets
 
 cp index.html styles.css script.js _headers robots.txt sitemap.xml dist/
+cp ./*.txt dist/ 2>/dev/null || true       # robots + IndexNow key
 cp assets/og.jpg          dist/assets/og.jpg
 cp -R assets/logos        dist/assets/logos
 cp -R assets/posters      dist/assets/posters

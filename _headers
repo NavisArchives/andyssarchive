@@ -1,0 +1,18 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# Markup and code: always revalidate so edits go live immediately.
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+/styles.css
+  Cache-Control: public, max-age=0, must-revalidate
+/script.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Media: filenames aren't content-hashed, so cache a day and refresh in the
+# background. Replacing a photo under the same name goes live within 24h.
+/assets/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800

@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "andyssarchives",
+  "compatibility_date": "2026-09-19",
+
+  // Pure static site: no Worker script, just the built folder.
+  // `_headers` inside dist/ is honoured for caching + security headers.
+  "assets": {
+    "directory": "./dist"
+  },
+
+  // Custom Domains: Cloudflare provisions the DNS records and TLS cert itself
+  // because andyssarchives.com is a zone on this same account.
+  "routes": [
+    { "pattern": "andyssarchives.com", "custom_domain": true },
+    { "pattern": "www.andyssarchives.com", "custom_domain": true }
+  ],
+
+  "observability": {
+    "enabled": true
+  }
+}

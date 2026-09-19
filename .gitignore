@@ -7,9 +7,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Build
+# Build output (regenerate with ./build.sh)
 dist/
 build/
+
+# Wrangler
+.wrangler/
 
 # IDEs
 .vscode/
@@ -18,5 +21,24 @@ build/
 # Env
 .env
 
-# Media cache
+# Logs
 *.log
+
+# ── Photo masters ─────────────────────────────────────────────
+# The shoot originals are 6000px / 8–18 MB each (~120 MB). Only the
+# 1600px web copies in assets/photos/web/ are shipped.
+# (assets/photos/myself/ is the profile portrait source and stays.)
+assets/photos/*.jpg
+assets/photos/*.jpeg
+assets/photos/*.JPG
+!assets/photos/web/
+
+# ── Video masters ─────────────────────────────────────────────
+# The originals in assets/videos/ are 100–260 MB each — far over
+# GitHub's 100 MB per-file limit. Only the web encodes are shipped.
+# (See README → "Videos" before your first push.)
+assets/videos/*.mov
+assets/videos/*.MOV
+assets/videos/*.mp4
+!assets/videos/web/
+tools/bin/

@@ -2,242 +2,397 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="andyssarchives — UGC, travel content and event hosting." />
-  <title>andyssarchives — UGC · Travel · Hosting</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="description" content="Dutch- and French-speaking UGC creator based in Belgium, working across the EU. Bilingual, mixed-race talent making story-first vertical content for tech, wellness and lifestyle brands — plus in-person event hosting." />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Dutch &amp; French Speaking UGC Creator in Belgium | Andyssarchives</title>
+
+  <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content="Andyssarchives" />
+  <meta property="og:title" content="Dutch &amp; French Speaking UGC Creator in Belgium" />
+  <meta property="og:description" content="Dutch- and French-speaking UGC creator based in Belgium, working across the EU. Bilingual, mixed-race talent making story-first vertical content for tech, wellness and lifestyle brands — plus in-person event hosting." />
+  <meta property="og:url" content="https://andyssarchives.com/" />
+  <meta property="og:image" content="https://andyssarchives.com/assets/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:locale:alternate" content="nl_BE" />
+  <meta property="og:locale:alternate" content="fr_BE" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Dutch &amp; French Speaking UGC Creator in Belgium" />
+  <meta name="twitter:description" content="Dutch- and French-speaking UGC creator based in Belgium, working across the EU. Bilingual, mixed-race talent making story-first vertical content for tech, wellness and lifestyle brands — plus in-person event hosting." />
+  <meta name="twitter:image" content="https://andyssarchives.com/assets/og.jpg" />
+
+  <link rel="canonical" href="https://andyssarchives.com/" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect width='20' height='20' rx='5' fill='%23fff0ad'/%3E%3Cpath d='M10 3.4 3.6 17h2.8l1.3-2.9h4.6l1.3 2.9h2.8L10 3.4Zm0 4.9 1.6 3.6H8.4L10 8.3Z' fill='%23472e2f'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" />
   <link rel="stylesheet" href="styles.css" />
   <script src="script.js" defer></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://andyssarchives.com/#andy",
+    "name": "Andy Huizenga",
+    "alternateName": "Andyssarchives",
+    "url": "https://andyssarchives.com/",
+    "image": "https://andyssarchives.com/assets/photos/web/portrait.jpg",
+    "email": "mailto:andysarchive@gmail.com",
+    "jobTitle": "UGC Creator",
+    "description": "Dutch- and French-speaking UGC creator based in Belgium, working across the EU.",
+    "knowsLanguage": [
+      { "@type": "Language", "name": "Dutch", "alternateName": "nl" },
+      { "@type": "Language", "name": "French", "alternateName": "fr" },
+      { "@type": "Language", "name": "English", "alternateName": "en" }
+    ],
+    "address": { "@type": "PostalAddress", "addressCountry": "BE" },
+    "workLocation": { "@type": "Place", "name": "Belgium" },
+    "sameAs": [
+      "https://instagram.com/andyssarchives",
+      "https://www.tiktok.com/@callmeandssss",
+      "https://www.linkedin.com/in/andy-huizenga/"
+    ],
+    "makesOffer": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "UGC video production", "areaServed": "EU" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Bilingual content creation (Dutch / French)", "areaServed": "EU" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Photography", "areaServed": "EU" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Event hosting and presenting", "areaServed": "BE" } }
+    ]
+  }
+  </script>
 </head>
 <body>
-  <header class="nav shell" id="site-header">
-    <a class="brand" href="#top">andyssarchives</a>
 
-    <nav class="desktop-nav" aria-label="Primary navigation">
+<!-- ───────────────────────── Header ───────────────────────── -->
+<header class="siteheader" id="siteheader">
+  <div class="siteheader__rail">
+    <div class="navpill" id="navpill">
+      <a class="navpill__mark" href="#hero" aria-label="Andyssarchives — back to top">
+        <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+          <path d="M10 1.4 1.9 18.6h3.5l1.6-3.6h6l1.6 3.6h3.5L10 1.4Zm0 5.9 2 4.5H8l2-4.5Z"/>
+        </svg>
+      </a>
+
+      <nav class="navpill__nav" aria-label="Primary">
+        <div class="navpill__links">
+          <a href="#videos">Videos</a>
+          <a href="#photos">Photos</a>
+          <a href="#hosting">Hosting</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+
+      <a class="btn btn--sm navpill__cta" href="#contact">Let's Work Together!</a>
+    </div>
+
+    <!-- Mobile: single glass trigger, matches the reference's phone header -->
+    <button class="navtray__trigger" id="navtrayTrigger" type="button"
+            aria-label="Open menu" aria-expanded="false" aria-controls="navtray">
+      <span class="navtray__bars" aria-hidden="true"><i></i><i></i></span>
+    </button>
+    <div class="navtray" id="navtray" hidden>
       <a href="#videos">Videos</a>
       <a href="#photos">Photos</a>
       <a href="#hosting">Hosting</a>
-    </nav>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a class="navtray__cta" href="#contact">Let's Work Together!</a>
+    </div>
+  </div>
+</header>
 
-    <a class="nav-cta desktop-cta" href="#contact">Let’s work together</a>
+<main>
 
-    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-      <span class="line line-1"></span>
-      <span class="line line-2"></span>
-      <span class="line line-3"></span>
-    </button>
+  <!-- ───────────────────────── Hero ───────────────────────── -->
+  <section class="hero" id="hero">
+    <div class="hero__grid">
+      <div class="hero__col">
+        <h1 class="hero__name">Andyssarchives</h1>
 
-    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-      <nav aria-label="Mobile navigation">
-        <a href="#videos">Videos</a>
-        <a href="#photos">Photos</a>
-        <a href="#hosting">Hosting</a>
-        <a href="#contact">Let’s work together</a>
+        <div class="hero__intro">
+          <p class="hero__introLabel">Intro</p>
+          <p class="hero__introBody">
+            Dutch- and French-speaking UGC creator based in Belgium, working across the EU.
+            5+ years of natural, story-first content for tech, wellness and lifestyle brands
+            — plus in-person hosting when a brand needs a face in the room.
+          </p>
+        </div>
+
+        <div class="hero__foot">
+          <div class="hero__footLeft">
+            <a class="btn btn--lg" href="#contact">Let's Work Together!</a>
+            <div class="hero__meta">
+              <p class="hero__loc">Belgium <span>— available worldwide</span></p>
+              <div class="hero__tags">
+                <span>Tech</span><span>Wellness</span><span>Lifestyle</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero__socials">
+            <a href="https://instagram.com/andyssarchives" aria-label="Instagram" target="_blank" rel="noopener">
+              <svg viewBox="0 0 512 512" aria-hidden="true"><path d="M256,49.471c67.266,0,75.233.257,101.8,1.469,24.562,1.121,37.9,5.224,46.778,8.674a78.052,78.052,0,0,1,28.966,18.845,78.052,78.052,0,0,1,18.845,28.966c3.45,8.877,7.554,22.216,8.674,46.778,1.212,26.565,1.469,34.532,1.469,101.8s-0.257,75.233-1.469,101.8c-1.121,24.562-5.225,37.9-8.674,46.778a83.427,83.427,0,0,1-47.811,47.811c-8.877,3.45-22.216,7.554-46.778,8.674-26.56,1.212-34.527,1.469-101.8,1.469s-75.237-.257-101.8-1.469c-24.562-1.121-37.9-5.225-46.778-8.674a78.051,78.051,0,0,1-28.966-18.845,78.053,78.053,0,0,1-18.845-28.966c-3.45-8.877-7.554-22.216-8.674-46.778-1.212-26.564-1.469-34.532-1.469-101.8s0.257-75.233,1.469-101.8c1.121-24.562,5.224-37.9,8.674-46.778A78.052,78.052,0,0,1,78.458,78.458a78.053,78.053,0,0,1,28.966-18.845c8.877-3.45,22.216-7.554,46.778-8.674,26.565-1.212,34.532-1.469,101.8-1.469m0-45.391c-68.418,0-77,.29-103.866,1.516-26.815,1.224-45.127,5.482-61.151,11.71a123.488,123.488,0,0,0-44.62,29.057A123.488,123.488,0,0,0,17.3,90.982C11.077,107.007,6.819,125.319,5.6,152.134,4.369,179,4.079,187.582,4.079,256S4.369,333,5.6,359.866c1.224,26.815,5.482,45.127,11.71,61.151a123.489,123.489,0,0,0,29.057,44.62,123.486,123.486,0,0,0,44.62,29.057c16.025,6.228,34.337,10.486,61.151,11.71,26.87,1.226,35.449,1.516,103.866,1.516s77-.29,103.866-1.516c26.815-1.224,45.127-5.482,61.151-11.71a128.817,128.817,0,0,0,73.677-73.677c6.228-16.025,10.486-34.337,11.71-61.151,1.226-26.87,1.516-35.449,1.516-103.866s-0.29-77-1.516-103.866c-1.224-26.815-5.482-45.127-11.71-61.151a123.486,123.486,0,0,0-29.057-44.62A123.487,123.487,0,0,0,421.018,17.3C404.993,11.077,386.681,6.819,359.866,5.6,333,4.369,324.418,4.079,256,4.079h0Z"/><path d="M256,126.635A129.365,129.365,0,1,0,385.365,256,129.365,129.365,0,0,0,256,126.635Zm0,213.338A83.973,83.973,0,1,1,339.974,256,83.974,83.974,0,0,1,256,339.973Z"/><circle cx="390.476" cy="121.524" r="30.23"/></svg>
+            </a>
+            <a href="https://www.tiktok.com/@callmeandssss" aria-label="TikTok" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 2h-3v13.1a2.6 2.6 0 1 1-2.1-2.6V9.4a5.7 5.7 0 1 0 5.1 5.7V8.9c1 .8 2.3 1.3 3.7 1.4V7.2a4.1 4.1 0 0 1-3.7-4.1V2Z"/></svg>
+            </a>
+            <a href="https://youtube.com/@andyssarchives" aria-label="YouTube" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.5 7.2a2.8 2.8 0 0 0-2-2C18.8 4.8 12 4.8 12 4.8s-6.8 0-8.5.45a2.8 2.8 0 0 0-2 2A29 29 0 0 0 1.1 12c0 1.6.1 3.2.4 4.8a2.8 2.8 0 0 0 2 2c1.7.44 8.5.44 8.5.44s6.8 0 8.5-.44a2.8 2.8 0 0 0 2-2c.3-1.6.4-3.2.4-4.8s-.1-3.2-.4-4.8ZM9.9 15.3V8.7l5.6 3.3-5.6 3.3Z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/andy-huizenga/" aria-label="LinkedIn" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C21.6 8.65 23 10.9 23 14.2V21h-4v-6c0-1.45-.03-3.3-2-3.3-2 0-2.3 1.57-2.3 3.2V21h-4V9Z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <figure class="hero__figure">
+        <img src="assets/photos/web/portrait.jpg" alt="Andy Huizenga, UGC creator" width="900" height="1600" fetchpriority="high" />
+      </figure>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Brand marquee ───────────────────────── -->
+  <section class="brands" aria-label="Brands I have worked with">
+    <div class="marquee">
+      <div class="marquee__track" id="marqueeTrack">
+        <!-- filled + duplicated by script.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Videos ───────────────────────── -->
+  <section class="section videos" id="videos">
+    <div class="section__head section__head--center">
+      <button class="arrow" type="button" data-carousel-dir="-1" aria-label="Previous video">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.5 1.8 4.3 8l6.2 6.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+      <div class="section__title">
+        <span class="pill">Videos I've created</span>
+        <h2>My Past Work</h2>
+      </div>
+
+      <button class="arrow" type="button" data-carousel-dir="1" aria-label="Next video">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 1.8 11.7 8l-6.2 6.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <div class="stage" id="stage" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Video work">
+      <div class="stage__rail" id="stageRail">
+        <!-- cards injected by script.js from the VIDEOS list -->
+      </div>
+    </div>
+
+    <p class="stage__caption" id="stageCaption" aria-live="polite"></p>
+
+    <div class="filters" role="group" aria-label="Filter videos by category" id="filters">
+      <!-- chips injected by script.js -->
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Photos ───────────────────────── -->
+  <section class="section photos" id="photos">
+    <div class="section__head">
+      <div class="section__title section__title--left">
+        <span class="pill">Gallery</span>
+        <h2>Photos</h2>
+      </div>
+      <div class="section__arrows">
+        <button class="arrow" type="button" data-photo-dir="-1" aria-label="Previous photos">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.5 1.8 4.3 8l6.2 6.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="arrow" type="button" data-photo-dir="1" aria-label="Next photos">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 1.8 11.7 8l-6.2 6.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="rail" id="photoRail">
+      <!-- photos injected by script.js from the PHOTOS list -->
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Hosting ───────────────────────── -->
+  <section class="section hosting" id="hosting">
+    <div class="section__head">
+      <div class="section__title section__title--left">
+        <span class="pill">Hosting</span>
+        <h2>Bring me on site.</h2>
+      </div>
+    </div>
+
+    <div class="hosting__body">
+      <p class="hosting__lede">
+        I host, present and guide events in person — carrying the room, connecting with guests
+        and keeping the experience moving naturally. Production and logistics stay with your team.
+      </p>
+
+      <ol class="offers">
+        <li class="offer">
+          <span class="offer__num">01</span>
+          <h3>Event hosting</h3>
+          <p>On-site hosting for brand events, hospitality experiences, launches, community moments and live activations.</p>
+        </li>
+        <li class="offer">
+          <span class="offer__num">02</span>
+          <h3>Presenting &amp; speaking</h3>
+          <p>Introducing moments, guiding transitions and representing the tone of your brand in front of a live audience.</p>
+        </li>
+        <li class="offer">
+          <span class="offer__num">03</span>
+          <h3>Audience experience</h3>
+          <p>Making the room feel warm, clear and connected — from the welcome to the last goodbye.</p>
+        </li>
+      </ol>
+
+      <a class="btn btn--lg hosting__cta" href="#contact">
+        Rates on request
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.6 21 12 3.4 3.4 3.4 10l12.6 2-12.6 2v6.6Z"/></svg>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ───────────────────────── Offer & specs ───────────────────────── -->
+  <section class="section offer" id="about">
+    <div class="offer__grid">
+
+      <div class="offer__intro">
+        <span class="pill">More about me</span>
+        <h2>Who you&rsquo;re<br />working with</h2>
+
+        <dl class="specs">
+          <div><dt>Languages</dt><dd>Dutch (native) · French · English</dd></div>
+          <div><dt>Based</dt><dd>Belgium</dd></div>
+          <div><dt>Available</dt><dd>Across Belgium &amp; the EU, remote worldwide</dd></div>
+          <div><dt>Casting</dt><dd>Mixed race</dd></div>
+          <div><dt>Delivers</dt><dd>9:16 vertical · 4K · raw + edited</dd></div>
+        </dl>
+      </div>
+
+      <div class="offer__panel">
+        <span class="pill">The details</span>
+
+        <div class="card-offer">
+          <h3>What you get</h3>
+
+          <ul class="card-offer__list">
+            <li>UGC creation &amp; ideation</li>
+            <li>Bilingual content — Dutch &amp; French</li>
+            <li>Creative strategy</li>
+            <li>Photography</li>
+            <li>Event hosting &amp; presenting</li>
+          </ul>
+
+          <div class="card-offer__ask">
+            <p>Price on request</p>
+            <a class="btn btn--dark" href="mailto:andysarchive@gmail.com?subject=Project%20enquiry">
+              Enquire
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.6 21 12 3.4 3.4 3.4 10l12.6 2-12.6 2v6.6Z"/></svg>
+            </a>
+          </div>
+
+          <div class="card-offer__cols">
+            <div>
+              <p class="card-offer__label">What&rsquo;s included</p>
+              <ul class="tags">
+                <li>Raw footage</li><li>B-roll</li><li>BTS</li><li>4K resolution</li>
+                <li>Scripting</li><li>Concept development</li><li>Organic usage rights</li>
+                <li>Captions</li><li>Multiple aspect ratios</li>
+              </ul>
+            </div>
+            <div>
+              <p class="card-offer__label">Extras</p>
+              <ul class="tags">
+                <li>Whitelisting rights</li><li>Paid advertising rights</li>
+                <li>Hook variations</li><li>Multiple lengths</li>
+                <li>Rush delivery (48 hours)</li><li>Extra revisions</li>
+                <li>Voiceover</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-offer__cols">
+            <div>
+              <p class="card-offer__label">Shot on</p>
+              <ul class="tags">
+                <li>Sony α6700</li><li>Tamron 27-75mm</li><li>Sigma f/1.4</li><li>iPhone 16 Pro Max</li>
+              </ul>
+            </div>
+            <div>
+              <p class="card-offer__label">Works with</p>
+              <ul class="tags">
+                <li>Beauty &amp; skincare</li><li>Tech &amp; SaaS</li><li>Wellness</li>
+                <li>Travel &amp; hospitality</li><li>Lifestyle</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Contact / Footer ───────────────────────── -->
+  <footer class="footer" id="contact">
+
+    <div class="footer__lead">
+      <div class="footer__who">
+        <img class="footer__portrait" src="assets/photos/web/portrait.jpg" alt="Andy Huizenga" width="900" height="1600" loading="lazy" />
+        <div>
+          <p class="footer__name">Andyssarchives</p>
+          <p class="footer__meta">Andy Huizenga · Belgium — available worldwide</p>
+        </div>
+      </div>
+
+      <nav class="footer__social" aria-label="Social profiles">
+        <a href="https://instagram.com/andyssarchives" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 512 512" aria-hidden="true"><path d="M256,49.471c67.266,0,75.233.257,101.8,1.469,24.562,1.121,37.9,5.224,46.778,8.674a78.052,78.052,0,0,1,28.966,18.845,78.052,78.052,0,0,1,18.845,28.966c3.45,8.877,7.554,22.216,8.674,46.778,1.212,26.565,1.469,34.532,1.469,101.8s-0.257,75.233-1.469,101.8c-1.121,24.562-5.225,37.9-8.674,46.778a83.427,83.427,0,0,1-47.811,47.811c-8.877,3.45-22.216,7.554-46.778,8.674-26.56,1.212-34.527,1.469-101.8,1.469s-75.237-.257-101.8-1.469c-24.562-1.121-37.9-5.225-46.778-8.674a78.051,78.051,0,0,1-28.966-18.845,78.053,78.053,0,0,1-18.845-28.966c-3.45-8.877-7.554-22.216-8.674-46.778-1.212-26.564-1.469-34.532-1.469-101.8s0.257-75.233,1.469-101.8c1.121-24.562,5.224-37.9,8.674-46.778A78.052,78.052,0,0,1,78.458,78.458a78.053,78.053,0,0,1,28.966-18.845c8.877-3.45,22.216-7.554,46.778-8.674,26.565-1.212,34.532-1.469,101.8-1.469m0-45.391c-68.418,0-77,.29-103.866,1.516-26.815,1.224-45.127,5.482-61.151,11.71a123.488,123.488,0,0,0-44.62,29.057A123.488,123.488,0,0,0,17.3,90.982C11.077,107.007,6.819,125.319,5.6,152.134,4.369,179,4.079,187.582,4.079,256S4.369,333,5.6,359.866c1.224,26.815,5.482,45.127,11.71,61.151a123.489,123.489,0,0,0,29.057,44.62,123.486,123.486,0,0,0,44.62,29.057c16.025,6.228,34.337,10.486,61.151,11.71,26.87,1.226,35.449,1.516,103.866,1.516s77-.29,103.866-1.516c26.815-1.224,45.127-5.482,61.151-11.71a128.817,128.817,0,0,0,73.677-73.677c6.228-16.025,10.486-34.337,11.71-61.151,1.226-26.87,1.516-35.449,1.516-103.866s-0.29-77-1.516-103.866c-1.224-26.815-5.482-45.127-11.71-61.151a123.486,123.486,0,0,0-29.057-44.62A123.487,123.487,0,0,0,421.018,17.3C404.993,11.077,386.681,6.819,359.866,5.6,333,4.369,324.418,4.079,256,4.079h0Z"/><path d="M256,126.635A129.365,129.365,0,1,0,385.365,256,129.365,129.365,0,0,0,256,126.635Zm0,213.338A83.973,83.973,0,1,1,339.974,256,83.974,83.974,0,0,1,256,339.973Z"/><circle cx="390.476" cy="121.524" r="30.23"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@callmeandssss" target="_blank" rel="noopener" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 2h-3v13.1a2.6 2.6 0 1 1-2.1-2.6V9.4a5.7 5.7 0 1 0 5.1 5.7V8.9c1 .8 2.3 1.3 3.7 1.4V7.2a4.1 4.1 0 0 1-3.7-4.1V2Z"/></svg>
+        </a>
+        <a href="https://youtube.com/@andyssarchives" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.5 7.2a2.8 2.8 0 0 0-2-2C18.8 4.8 12 4.8 12 4.8s-6.8 0-8.5.45a2.8 2.8 0 0 0-2 2A29 29 0 0 0 1.1 12c0 1.6.1 3.2.4 4.8a2.8 2.8 0 0 0 2 2c1.7.44 8.5.44 8.5.44s6.8 0 8.5-.44a2.8 2.8 0 0 0 2-2c.3-1.6.4-3.2.4-4.8s-.1-3.2-.4-4.8ZM9.9 15.3V8.7l5.6 3.3-5.6 3.3Z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/andy-huizenga/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C21.6 8.65 23 10.9 23 14.2V21h-4v-6c0-1.45-.03-3.3-2-3.3-2 0-2.3 1.57-2.3 3.2V21h-4V9Z"/></svg>
+        </a>
       </nav>
     </div>
-  </header>
 
-  <main id="top">
-    <section class="hero shell">
-      <div class="hero-top">
-        <p class="eyebrow">UGC · TRAVEL · HOSTING</p>
-        <h1 class="wordmark">andyss<br>archives</h1>
-        <p class="lede">I create natural, story-led content for brands, hotels and places — and host experiences in person.</p>
-      </div>
-      <figure class="hero-media" aria-hidden="true">
-        <img src="assets/photos/Myself.jpg" alt="Creator portrait" class="hero-img"/>
-      </figure>
-    </section>
-
-    <section class="brands shell" aria-label="Selected collaborations">
-      <p class="section-label">Selected collaborations</p>
-      <div class="logo-row" aria-hidden="false">
-        <img src="assets/logos/Bioderma_logo.svg" alt="Bioderma" class="logo-img" />
-        <img src="assets/logos/Emporio_Armani_logo.svg" alt="Emporio Armani" class="logo-img" />
-        <img src="assets/logos/Maybelline-Logo.svg" alt="Maybelline" class="logo-img" />
-        <img src="assets/logos/Saint_Laurent_Paris_SVG_Logo.svg" alt="Saint Laurent" class="logo-img" />
-        <img src="assets/logos/biotherm.svg" alt="Biotherm" class="logo-img" />
-        <img src="assets/logos/canva-com-brandmark.jpg" alt="Canva" class="logo-img" />
-        <img src="assets/logos/maybelline-new-york.svg" alt="Maybelline New York" class="logo-img" />
-      </div>
-    </section>
-
-    <section class="work shell" id="videos">
-      <div class="section-head">
-        <div>
-          <p class="section-label">Videos I’ve created</p>
-          <h2>My work</h2>
-        </div>
-        <div class="arrows">
-          <button class="arrow" data-dir="-1" aria-label="Previous">‹</button>
-          <button class="arrow" data-dir="1" aria-label="Next">›</button>
-        </div>
-      </div>
-
-      <div class="filters" role="tablist" aria-label="Filter videos">
-        <button class="chip active" data-filter="all" role="tab" aria-selected="true">All</button>
-        <button class="chip" data-filter="ugc" role="tab" aria-selected="false">UGC</button>
-        <button class="chip" data-filter="travel" role="tab" aria-selected="false">Travel & Hotels</button>
-      </div>
-
-      <div class="carousel" id="carousel" tabindex="0" aria-roledescription="carousel">
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/Andy_YSL_Reel_V3.mp4" type="video/mp4">
-          </video>
-          <p class="caption">Andy_YSL_Reel_V3</p>
-        </article>
-
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/BiodermaV3.mov" type="video/mp4">
-          </video>
-          <p class="caption">BiodermaV3</p>
-        </article>
-
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/BiodermaXAndy.mov" type="video/mp4">
-          </video>
-          <p class="caption">BiodermaXAndy</p>
-        </article>
-
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/BiodermaXSparkAds.mov" type="video/mp4">
-          </video>
-          <p class="caption">BiodermaXSparkAds</p>
-        </article>
-
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/C1_Armani_V1.mov" type="video/mp4">
-          </video>
-          <p class="caption">C1_Armani_V1</p>
-        </article>
-
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/C1_KRUIDVAT_V1.mov" type="video/mp4">
-          </video>
-          <p class="caption">C1_KRUIDVAT_V1</p>
-        </article>
-
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/C1_Wallpaper_V1.mov" type="video/mp4">
-          </video>
-          <p class="caption">C1_Wallpaper_V1</p>
-        </article>
-
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/C2_GLUED_V2.mov" type="video/mp4">
-          </video>
-          <p class="caption">C2_GLUED_V2</p>
-        </article>
-
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/EFFECLAR_V1.mov" type="video/mp4">
-          </video>
-          <p class="caption">EFFECLAR_V1</p>
-        </article>
-
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/Eucerin_V1.mov" type="video/mp4">
-          </video>
-          <p class="caption">Eucerin_V1</p>
-        </article>
-
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/INDEED_SIGN_V2.mov" type="video/mp4">
-          </video>
-          <p class="caption">INDEED_SIGN_V2</p>
-        </article>
-
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/INDEED_TOTEBAG_CLEAN.MOV" type="video/mp4">
-          </video>
-          <p class="caption">INDEED_TOTEBAG_CLEAN</p>
-        </article>
-
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/INDEED_TOTEBAG_V2.mov" type="video/mp4">
-          </video>
-          <p class="caption">INDEED_TOTEBAG_V2</p>
-        </article>
-
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/LAROCHE_V2.mov" type="video/mp4">
-          </video>
-          <p class="caption">LAROCHE_V2</p>
-        </article>
-
-        <article class="work-card" data-category="ugc">
-          <video preload="metadata" playsinline controls class="card-video">
-            <source src="assets/videos/MixBrussels.MOV" type="video/mp4">
-          </video>
-          <p class="caption">MixBrussels</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="photos shell" id="photos">
-      <div class="section-head">
-        <div>
-          <p class="section-label">Gallery</p>
-          <h2>Photos</h2>
-        </div>
-      </div>
-      <div class="photo-grid">
-        <figure class="photo-item">
-          <img src="assets/photos/Myself.jpg" loading="lazy" decoding="async" alt="Place photo"/>
-        </figure>
-        <figure class="photo-item">
-          <img src="assets/photos/Myself.jpg" loading="lazy" decoding="async" alt="Place photo"/>
-        </figure>
-        <figure class="photo-item">
-          <img src="assets/photos/Myself.jpg" loading="lazy" decoding="async" alt="Place photo"/>
-        </figure>
-      </div>
-    </section>
-
-    <section class="services shell" id="hosting">
-      <div class="services-intro">
-        <p class="section-label">Hosting</p>
-        <h2>Bring me<br />on site.</h2>
-        <p>I can host, present and guide an event in person — helping carry the room, connect with the audience and keep the experience moving naturally.</p>
-      </div>
-      <div class="service-list">
-        <article><span>01</span><div><h3>Event hosting</h3><p>On-site hosting for brand events, hospitality experiences, launches, community moments and live activations.</p></div></article>
-        <article><span>02</span><div><h3>Presenting & speaking</h3><p>Comfortable speaking to guests, introducing moments, guiding transitions and representing the tone of the event.</p></div></article>
-        <article><span>03</span><div><h3>Audience experience</h3><p>I help make the event feel warm, clear and connected. Event production and organisation remain with your team.</p></div></article>
-        <a class="enquire" href="#contact">Rates on request → Enquire</a>
-      </div>
-    </section>
-
-    <section class="contact" id="contact">
-      <div class="shell contact-inner">
-        <p class="section-label">Have a project in mind?</p>
-        <h2>Let’s get<br>in touch.</h2>
-        <a class="contact-link" href="#">hello@example.com ↗</a>
-        <div class="socials"><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">LinkedIn</a></div>
-      </div>
-    </section>
-
-    <div id="lightbox" class="lightbox" aria-hidden="true">
-      <div class="lightbox-inner" role="dialog" aria-modal="true">
-        <button class="lightbox-close" aria-label="Close">×</button>
-        <figure class="lightbox-figure"><img src="" alt=""/></figure>
+    <div class="footer__cta">
+      <h2 class="footer__pitch">Let&rsquo;s make<br />something together.</h2>
+      <div class="footer__act">
+        <a class="btn btn--lg footer__mail" href="mailto:andysarchive@gmail.com">
+          Get in Touch
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.6 21 12 3.4 3.4 3.4 10l12.6 2-12.6 2v6.6Z"/></svg>
+        </a>
+        <a class="footer__email" href="mailto:andysarchive@gmail.com">andysarchive@gmail.com</a>
       </div>
     </div>
-  </main>
 
-  <footer class="shell"><span>© 2026 andyssarchives</span><span>Independent creator portfolio</span></footer>
+    <div class="footer__base">
+      <p>© 2026 Andy Huizenga · Andyssarchives. All rights reserved.</p>
+      <p class="footer__trust">Tech · Wellness · Lifestyle</p>
+    </div>
+  </footer>
+</main>
+
+<!-- ───────────────────────── Lightbox ───────────────────────── -->
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lightbox__close" id="lightboxClose" type="button" aria-label="Close">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5 19 19M19 5 5 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <figure class="lightbox__figure"><img id="lightboxImg" alt="" /></figure>
+</div>
+
 </body>
 </html>

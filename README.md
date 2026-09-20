@@ -158,9 +158,36 @@ Sessions are held in memory, so restarting the server signs you out, as does the
 - **An empty video list is refused.** The UI never sends one, so it can only mean a bug or a
   stray request, and accepting it would blank the whole carousel.
 
-It still binds to **127.0.0.1**, and that remains the real protection: the session cookie is not
-marked `Secure`, because there is no TLS on localhost. If you ever expose this through a tunnel,
-put HTTPS in front of it first.
+### Reaching it from your phone
+
+**https://admin.andyssarchives.com**
+
+The server still only ever binds to `127.0.0.1`. A Cloudflare Tunnel runs on this Mac, makes an
+*outbound* connection to Cloudflare, and forwards requests to that loopback port — so nothing is
+listening on your LAN or on a public port, and there is no firewall hole. Cloudflare terminates
+TLS, and the session cookie is marked `Secure` whenever the request arrived over HTTPS.
+
+Brute force is capped: 5 wrong passwords from one address locks that address out for 15 minutes.
+
+Both pieces run as launch agents, so they come back after a reboot:
+
+```bash
+launchctl list | grep andyssarchives           # is it running?
+tail -f ~/Library/Logs/andyssarchives-admin.log
+tail -f ~/Library/Logs/andyssarchives-tunnel.log
+```
+
+To take it off the internet again — the admin still works at `127.0.0.1:4180`:
+
+```bash
+launchctl unload ~/Library/LaunchAgents/com.andyssarchives.tunnel.plist
+```
+
+To stop the admin entirely, unload `com.andyssarchives.admin.plist` as well.
+
+**It only works while this Mac is awake and online.** The tunnel is this machine; if it sleeps,
+the phone gets an error. `pmset -g` currently shows a 1-minute idle sleep, so consider
+`caffeinate -s` or raising the sleep timer while you rely on it.
 
 ### Why it's local and not a page on the site
 

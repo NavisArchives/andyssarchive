@@ -9,11 +9,14 @@
  * otherwise do by hand: drop a file into assets/videos/, run the sync, edit
  * the VIDEOS list in script.js, and deploy.
  *
- * It binds to 127.0.0.1 and asks for a password. The password lives in .env at
- * the repo root (git-ignored) as ADMIN_PASSWORD — never in this file. The
- * loopback binding is still the real protection: the cookie is not marked
- * Secure because there is no TLS on localhost, so if you ever expose this
- * through a tunnel, put HTTPS in front of it first.
+ * It only ever binds to 127.0.0.1. To reach it from a phone, a Cloudflare
+ * Tunnel runs on this Mac and forwards to that loopback port — nothing is
+ * opened to the network directly, and Cloudflare terminates TLS.
+ *
+ * The password lives in .env at the repo root (git-ignored) as
+ * ADMIN_PASSWORD — never in this file. When a request arrives over HTTPS the
+ * session cookie is marked Secure; over plain localhost it cannot be, or the
+ * browser would drop it.
  *
  * Encoding is why this is local rather than a page on the live site: it uses
  * AVFoundation on this Mac, and a 300 MB master could never be processed in a
@@ -60,6 +63,32 @@ if (!PASSWORD) {
 
 /* Sessions live in memory, so restarting the server logs you out. */
 const sessions = new Set();
+
+/* Once this is reachable from the internet a single password is the only
+   thing in the way, so make guessing expensive. Counted per source address,
+   cleared on a correct password, and reset when the window lapses. */
+const MAX_TRIES = 5;
+const LOCK_MS = 15 * 60 * 1000;
+const tries = new Map();                       // ip -> { n, until }
+
+function lockedOut(ip) {
+  const t = tries.get(ip);
+  if (!t) return 0;
+  if (Date.now() > t.until) { tries.delete(ip); return 0; }
+  return t.n >= MAX_TRIES ? Math.ceil((t.until - Date.now()) / 1000) : 0;
+}
+function noteFailure(ip) {
+  const t = tries.get(ip) ?? { n: 0, until: 0 };
+  t.n += 1;
+  t.until = Date.now() + LOCK_MS;
+  tries.set(ip, t);
+}
+
+const clientIp = (req) =>
+  (req.headers['cf-connecting-ip'] || req.socket.remoteAddress || '?').toString();
+
+/* cloudflared sets x-forwarded-proto; direct localhost requests are plain http */
+const isHttps = (req) => (req.headers['x-forwarded-proto'] || '').split(',')[0].trim() === 'https';
 
 const sameSecret = (a, b) => {
   const x = Buffer.from(String(a)); const y = Buffer.from(String(b));
@@ -150,17 +179,28 @@ const server = http.createServer(async (req, res) => {
   try {
     /* login */
     if (req.method === 'POST' && p === '/api/login') {
+      const ip = clientIp(req);
+      const wait = lockedOut(ip);
+      if (wait) {
+        res.writeHead(429, { 'content-type': 'text/html; charset=utf-8' });
+        return res.end(LOGIN_PAGE.replace('__ERR__',
+          `Too many attempts — try again in ${Math.ceil(wait / 60)} min`));
+      }
       const body = await read(req);
       const given = new URLSearchParams(body).get('password') ?? '';
       if (!sameSecret(given, PASSWORD)) {
+        noteFailure(ip);
+        console.warn(`  failed login from ${ip}`);
         res.writeHead(401, { 'content-type': 'text/html; charset=utf-8' });
         return res.end(LOGIN_PAGE.replace('__ERR__', 'Wrong password'));
       }
+      tries.delete(ip);
       const token = crypto.randomBytes(24).toString('hex');
       sessions.add(token);
       res.writeHead(303, {
         location: '/',
-        'set-cookie': `admin=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=43200`,
+        'set-cookie': `admin=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=43200`
+                    + (isHttps(req) ? '; Secure' : ''),
       });
       return res.end();
     }

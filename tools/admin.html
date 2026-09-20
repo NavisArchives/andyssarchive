@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Andyssarchives — admin</title>
+<style>
+:root{
+  --ink:#472e2f; --ink-60:rgba(71,46,47,.6); --ink-25:rgba(71,46,47,.25);
+  --ink-12:rgba(71,46,47,.12); --yellow:#fff0ad; --paper:#fff; --ph:#f4f2f1;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --font:"Helvetica Neue",Helvetica,Inter,Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.5 var(--font);
+  -webkit-font-smoothing:antialiased}
+h1{font-size:26px;font-weight:700;letter-spacing:-.045em;margin:0}
+h2{font-size:13px;font-weight:400;color:var(--ink-60);margin:0 0 12px;
+  text-transform:uppercase;letter-spacing:.08em}
+button{font:inherit;color:inherit;cursor:pointer}
+
+.bar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;
+  padding:16px 28px;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--ink-12)}
+.bar .spacer{flex:1}
+.btn{border:1px solid transparent;border-radius:999px;padding:9px 18px;font-size:14px;
+  background:var(--yellow);transition:transform .2s var(--ease),opacity .2s var(--ease)}
+.btn:hover{transform:scale(1.02)} .btn:active{transform:scale(.98)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.btn--dark{background:var(--ink);color:#fff}
+.btn--ghost{background:transparent;border-color:var(--ink-25)}
+.dirty{color:#b4531f;font-size:13px}
+
+main{max-width:1000px;margin:0 auto;padding:28px}
+
+.drop{border:1.5px dashed var(--ink-25);border-radius:18px;padding:30px;text-align:center;
+  color:var(--ink-60);transition:border-color .2s var(--ease),background-color .2s var(--ease)}
+.drop.over{border-color:var(--ink);background:#fffdf2;color:var(--ink)}
+.drop b{color:var(--ink)}
+
+ul{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+li.row{display:grid;grid-template-columns:22px 62px minmax(0,1fr) auto;gap:14px;align-items:start;
+  border:1px solid var(--ink-12);border-radius:16px;padding:12px;background:var(--paper)}
+li.row.drag{opacity:.4} li.row.over{border-color:var(--ink);background:#fffdf2}
+.grip{cursor:grab;color:var(--ink-25);font-size:18px;line-height:1;padding-top:16px;
+  text-align:center;user-select:none}
+.thumb{width:62px;aspect-ratio:9/16;border-radius:8px;object-fit:cover;background:var(--ph)}
+.meta{min-width:0;display:flex;flex-direction:column;gap:8px}
+.file{font-size:11px;color:var(--ink-60);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+input[type=text]{font:inherit;width:100%;padding:8px 12px;border:1px solid var(--ink-25);
+  border-radius:9px;background:var(--paper);color:inherit}
+input[type=text]:focus{outline:2px solid var(--ink);outline-offset:1px;border-color:transparent}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;padding:4px 11px;border-radius:999px;border:1px solid var(--ink-25);
+  background:transparent;transition:background-color .15s var(--ease)}
+.tag[aria-pressed=true]{background:var(--yellow);border-color:var(--yellow)}
+.side{display:flex;flex-direction:column;align-items:flex-end;gap:8px;white-space:nowrap}
+.star{font-size:12px;display:inline-flex;align-items:center;gap:6px;color:var(--ink-60)}
+.warn{font-size:11px;color:#b4531f}
+
+#log{margin-top:22px;padding:14px 16px;border-radius:12px;background:#f7f5f4;
+  font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;
+  max-height:260px;overflow:auto}
+#log:empty{display:none}
+.busy{pointer-events:none;opacity:.55}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <h1>Andyssarchives</h1>
+  <span id="count" style="color:var(--ink-60);font-size:13px"></span>
+  <span class="spacer"></span>
+  <span id="dirty" class="dirty"></span>
+  <button class="btn btn--ghost" id="revert">Revert</button>
+  <button class="btn" id="save">Save</button>
+  <button class="btn btn--dark" id="deploy">Save &amp; publish</button>
+</div>
+
+<main>
+  <h2>Add a video</h2>
+  <div class="drop" id="drop">
+    <b>Drop a clip here</b> — or <button class="btn btn--ghost" id="pick" style="padding:5px 14px">choose a file</button>
+    <div style="margin-top:8px;font-size:13px">
+      .mov / .mp4 · encoded to 720&times;1280 and given a poster automatically
+    </div>
+    <input type="file" id="file" accept="video/*" multiple hidden />
+  </div>
+
+  <h2 style="margin-top:30px">Videos — drag to reorder</h2>
+  <ul id="list"></ul>
+
+  <div id="log"></div>
+</main>
+
+<script type="module">
+const $ = (s) => document.querySelector(s);
+let state = null;      // as loaded from the server
+let videos = [];       // working copy
+let featured = null;
+let clean = '';        // snapshot for the dirty check
+
+const snapshot = () => JSON.stringify({ videos, featured });
+const isDirty = () => snapshot() !== clean;
+
+function log(msg, append) {
+  const el = $('#log');
+  el.textContent = append ? `${el.textContent}\n${msg}` : msg;
+  el.scrollTop = el.scrollHeight;
+}
+
+async function api(path, opts) {
+  const r = await fetch(path, opts);
+  const body = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(body.error || `${r.status} ${r.statusText}`);
+  return body;
+}
+
+function adopt(s) {
+  state = s;
+  videos = s.videos.map((v) => ({ ...v, cats: [...v.cats] }));
+  featured = s.featured;
+  clean = snapshot();
+  render();
+}
+
+function render() {
+  $('#count').textContent = `${videos.length} videos`;
+  $('#dirty').textContent = isDirty() ? 'unsaved changes' : '';
+  $('#save').disabled = !isDirty();
+
+  const cats = state.categories;
+  const list = $('#list');
+  list.innerHTML = '';
+
+  videos.forEach((v, i) => {
+    const li = document.createElement('li');
+    li.className = 'row';
+    li.draggable = true;
+    li.dataset.i = i;
+
+    const missing = !v.hasEncode
+      ? '<div class="warn">no encode — this one will not play</div>' : '';
+
+    li.innerHTML = `
+      <div class="grip" title="drag to reorder">⠿</div>
+      <img class="thumb" ${v.poster ? `src="${v.poster}"` : ''} alt="">
+      <div class="meta">
+        <input type="text" value="${esc(v.title)}" data-title="${i}" aria-label="Title">
+        <div class="file">${esc(v.file)}${v.hasMaster ? '' : ' · master not on this disk'}</div>
+        ${missing}
+        <div class="tags">${cats.map((c) => `
+          <button class="tag" data-tag="${i}:${c.id}"
+            aria-pressed="${v.cats.includes(c.id)}">${esc(c.label)}</button>`).join('')}
+        </div>
+      </div>
+      <div class="side">
+        <label class="star"><input type="radio" name="featured" value="${esc(v.file)}"
+          ${featured === v.file ? 'checked' : ''}> opens first</label>
+      </div>`;
+    list.appendChild(li);
+  });
+}
+
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) =>
+  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+/* ── edits ─────────────────────────────────────────────────────────── */
+$('#list').addEventListener('input', (e) => {
+  const t = e.target.dataset.title;
+  if (t !== undefined) { videos[+t].title = e.target.value; touch(); }
+});
+$('#list').addEventListener('change', (e) => {
+  if (e.target.name === 'featured') { featured = e.target.value; touch(); }
+});
+$('#list').addEventListener('click', (e) => {
+  const tag = e.target.dataset.tag;
+  if (!tag) return;
+  const [i, id] = tag.split(':');
+  const cats = videos[+i].cats;
+  const at = cats.indexOf(id);
+  at === -1 ? cats.push(id) : cats.splice(at, 1);
+  render();
+});
+function touch() {
+  $('#dirty').textContent = isDirty() ? 'unsaved changes' : '';
+  $('#save').disabled = !isDirty();
+}
+
+/* ── drag to reorder ───────────────────────────────────────────────── */
+let from = null;
+$('#list').addEventListener('dragstart', (e) => {
+  const li = e.target.closest('.row'); if (!li) return;
+  from = +li.dataset.i; li.classList.add('drag');
+  e.dataTransfer.effectAllowed = 'move';
+});
+$('#list').addEventListener('dragover', (e) => {
+  e.preventDefault();
+  const li = e.target.closest('.row'); if (!li) return;
+  document.querySelectorAll('.row.over').forEach((n) => n.classList.remove('over'));
+  li.classList.add('over');
+});
+$('#list').addEventListener('drop', (e) => {
+  e.preventDefault();
+  const li = e.target.closest('.row'); if (!li || from === null) return;
+  const to = +li.dataset.i;
+  videos.splice(to, 0, videos.splice(from, 1)[0]);
+  from = null; render();
+});
+$('#list').addEventListener('dragend', () => {
+  from = null;
+  document.querySelectorAll('.row.drag,.row.over').forEach((n) => n.classList.remove('drag', 'over'));
+});
+
+/* ── upload ────────────────────────────────────────────────────────── */
+const drop = $('#drop');
+$('#pick').addEventListener('click', () => $('#file').click());
+$('#file').addEventListener('change', (e) => upload([...e.target.files]));
+['dragenter', 'dragover'].forEach((t) =>
+  drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach((t) =>
+  drop.addEventListener(t, () => drop.classList.remove('over')));
+drop.addEventListener('drop', (e) => { e.preventDefault(); upload([...e.dataTransfer.files]); });
+
+async function upload(files) {
+  if (!files.length) return;
+  if (isDirty() && !confirm('You have unsaved changes. Upload anyway? They will be kept.')) return;
+  document.body.classList.add('busy');
+  for (const f of files) {
+    try {
+      log(`uploading ${f.name} (${(f.size / 1048576).toFixed(0)} MB)…`);
+      const r = await api(`/api/upload?name=${encodeURIComponent(f.name)}`,
+        { method: 'PUT', body: f });
+      log(r.log.trim(), true);
+      adopt(r);
+    } catch (err) { log(`✗ ${f.name}: ${err.message}`, true); }
+  }
+  document.body.classList.remove('busy');
+  $('#file').value = '';
+}
+
+/* ── save / publish ────────────────────────────────────────────────── */
+async function save() {
+  const r = await api('/api/save', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ videos, featured }),
+  });
+  adopt(r);
+  return r;
+}
+
+$('#save').addEventListener('click', async () => {
+  document.body.classList.add('busy');
+  try { await save(); log('saved to script.js'); }
+  catch (e) { log(`✗ ${e.message}`); }
+  document.body.classList.remove('busy');
+});
+
+$('#revert').addEventListener('click', async () => {
+  if (isDirty() && !confirm('Discard your unsaved changes?')) return;
+  adopt(await api('/api/state'));
+  log('reloaded from script.js');
+});
+
+$('#deploy').addEventListener('click', async () => {
+  document.body.classList.add('busy');
+  try {
+    if (isDirty()) { await save(); log('saved'); }
+    log('building and publishing… this takes a minute', true);
+    const r = await api('/api/deploy', { method: 'POST' });
+    log(r.log.trim(), true);
+    log(r.ok ? '\n✓ live at https://andyssarchives.com' : '\n✗ publish failed', true);
+  } catch (e) { log(`✗ ${e.message}`, true); }
+  document.body.classList.remove('busy');
+});
+
+addEventListener('beforeunload', (e) => { if (isDirty()) e.preventDefault(); });
+
+adopt(await api('/api/state'));
+</script>
+</body>
+</html>

@@ -120,6 +120,37 @@ the existing history — clearing that needs either `git filter-repo` or a fresh
 
 ---
 
+---
+
+## Admin page
+
+```bash
+./tools/admin.sh          # → http://127.0.0.1:4180
+```
+
+A local page for the things you'd otherwise hand-edit: **upload a clip, rename it, retag it,
+drag it into a new order, choose which one the carousel opens on, publish.**
+
+- **Upload** — drop a `.mov`/`.mp4` on the page. It lands in `assets/videos/`, gets encoded and
+  postered by the same sync the build uses, and appears in the list with a guessed title and no
+  tags. Rejects non-videos, duplicate names, and names with characters that break URLs.
+- **Save** writes `script.js`. **Save & publish** also runs `build.sh` and `wrangler deploy`.
+- **Revert** throws away unsaved edits and reloads from `script.js`.
+
+It binds to **127.0.0.1** and has no login, because nothing outside this Mac can reach it.
+Don't expose it through a tunnel or change the host without adding authentication first.
+
+### Why it's local and not a page on the site
+
+Encoding runs on AVFoundation on this Mac. A Cloudflare Worker has no ffmpeg and a hard CPU
+limit, so a 300 MB master could never be processed there. Uploading to the live site would mean
+uploading files that are already web-ready — which is the hard part, done. Keeping the admin
+local means one drag does the whole job.
+
+`tools/` is never copied into `dist/`, so none of this reaches the public site.
+
+---
+
 ## Deploying
 
 Live at **https://andyssarchives.com**, on Cloudflare Workers static assets

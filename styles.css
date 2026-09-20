@@ -66,10 +66,14 @@ ol,ul{list-style:none;padding:0}
 }
 
 .btn{
-  display:inline-flex;align-items:center;gap:10px;
+  display:inline-flex;align-items:center;gap:10px;flex:none;
   background:var(--yellow);color:var(--ink);
   border:1px solid transparent;border-radius:999px;
   cursor:pointer;white-space:nowrap;
+  /* A usable size by default. --sm/--lg only adjust it; without this a .btn
+     that carries no size modifier (e.g. `btn btn--dark`) renders with zero
+     padding and the label sits flush against the pill edge. */
+  font-size:15px;line-height:1.5;padding:10px 18px;
   transition:transform .2s var(--ease),border-color .2s var(--ease),background-color .2s var(--ease);
 }
 .btn:hover{transform:scale(1.015);border-color:var(--ink-25)}

@@ -7,8 +7,11 @@
  *   2. pull a poster frame to assets/posters/<name>.jpg
  *   3. add it to the VIDEOS list in script.js, so it shows up on the site
  *
- * Delete a master and it does the reverse: the encode, the poster and the
- * list entry all go.
+ * The ENCODE is the source of truth for what is published — not the master.
+ * Masters are git-ignored and local-only, so a missing one is normal (disk
+ * cleanup, fresh clone, another machine) and must never unpublish anything.
+ * This script therefore only ever ADDS files. To take a video off the site,
+ * delete its encode in assets/videos/web/ (or just remove the line yourself).
  *
  * Titles and categories you have already written are never touched — a new
  * entry gets a guessed title and empty `cats`, and waits for you to tag it.
@@ -24,6 +27,7 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readVideos, writeVideos } from './videos-file.mjs';
 
 const TOOLS = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(TOOLS, '..');
@@ -65,6 +69,13 @@ function tool(name) {
 
 const stem = (f) => path.basename(f, path.extname(f));
 
+function encodesOnDisk() {
+  if (!fs.existsSync(ENCODES)) return new Set();
+  return new Set(fs.readdirSync(ENCODES)
+    .filter((f) => f.toLowerCase().endsWith('.mp4'))
+    .map(stem));
+}
+
 function mastersOnDisk() {
   if (!fs.existsSync(MASTERS)) return new Map();
   const found = new Map();                       // stem -> absolute path
@@ -81,20 +92,6 @@ function mastersOnDisk() {
 }
 
 /* ── VIDEOS array in script.js ─────────────────────────────────────── */
-
-function readList(source) {
-  const open = source.indexOf('const VIDEOS = [');
-  if (open === -1) throw new Error('could not find `const VIDEOS = [` in script.js');
-  const close = source.indexOf('];', open);
-  const body = source.slice(open, close);
-  const entries = [];
-  // one object literal per line, which is how the list is written
-  for (const line of body.split('\n')) {
-    const m = line.match(/file:'([^']+)'/);
-    if (m) entries.push({ file: m[1], line: line.replace(/,\s*$/, '') });
-  }
-  return { open, close, entries };
-}
 
 function guessTitle(name) {
   return name
@@ -113,16 +110,18 @@ fs.mkdirSync(ENCODES, { recursive: true });
 fs.mkdirSync(POSTERS, { recursive: true });
 
 const masters = mastersOnDisk();
+const encodes = encodesOnDisk();
 let source = fs.readFileSync(SCRIPT, 'utf8');
-const { entries } = readList(source);
+const { videos: entries } = readVideos(source);
 const listed = new Set(entries.map((e) => e.file));
 
 const added = [];
 const removed = [];
+const archived = [];      // published, master no longer on this disk — fine
 let encoded = 0;
 let postered = 0;
 
-// 1. new masters -> encode, poster, list
+// 1. every master gets an encode and a poster
 for (const [name, master] of [...masters].sort()) {
   const mp4 = path.join(ENCODES, `${name}.mp4`);
   const jpg = path.join(POSTERS, `${name}.jpg`);
@@ -132,6 +131,7 @@ for (const [name, master] of [...masters].sort()) {
     execFileSync(tool('encode-video'),
       [ENCODES, String(SHORT_SIDE), String(BITRATE), master], { stdio: 'inherit' });
     encoded++;
+    encodes.add(name);
   }
   if (!fs.existsSync(jpg)) {
     log(`poster ${name}…`);
@@ -139,33 +139,42 @@ for (const [name, master] of [...masters].sort()) {
       [master, jpg, String(POSTER_AT), String(POSTER_WIDTH)], { stdio: 'inherit' });
     postered++;
   }
-  if (!listed.has(name)) added.push(name);
 }
 
-// 2. masters that are gone -> drop encode, poster, list entry
-for (const e of entries) {
-  if (!masters.has(e.file)) {
-    removed.push(e.file);
-    for (const p of [path.join(ENCODES, `${e.file}.mp4`), path.join(POSTERS, `${e.file}.jpg`)]) {
-      if (fs.existsSync(p)) { fs.rmSync(p); log(`removed ${path.relative(ROOT, p)}`); }
-    }
+// 2. an encode with no master is still published — just make sure it has a
+//    poster. The encode itself works fine as the source for that frame.
+for (const name of [...encodes].sort()) {
+  if (!masters.has(name)) archived.push(name);
+  const jpg = path.join(POSTERS, `${name}.jpg`);
+  if (!fs.existsSync(jpg)) {
+    log(`poster ${name} (from the encode)…`);
+    execFileSync(tool('make-poster'),
+      [path.join(ENCODES, `${name}.mp4`), jpg, String(POSTER_AT), String(POSTER_WIDTH)],
+      { stdio: 'inherit' });
+    postered++;
   }
 }
 
-// 3. rewrite the list, keeping every hand-written title and cats
+// 3. anything publishable that isn't listed yet
+for (const name of [...new Set([...masters.keys(), ...encodes])].sort()) {
+  if (!listed.has(name)) added.push(name);
+}
+
+// 4. Only drop a line when there is nothing left to play — no encode AND no
+//    master. Files are never deleted here; removing a video is a deliberate
+//    act (delete the encode), not a side effect of tidying your disk.
+for (const e of entries) {
+  if (!masters.has(e.file) && !encodes.has(e.file)) removed.push(e.file);
+}
+
+// 5. rewrite the list, keeping every hand-written title, cats and the order
 if (added.length || removed.length) {
-  const kept = entries.filter((e) => masters.has(e.file));
-  const pad = (s, n) => s + ' '.repeat(Math.max(1, n - s.length));
-  const fresh = added.map((name) =>
-    `  { file:${pad(`'${name}',`, 24)} title:'${guessTitle(name)}',${' '.repeat(2)}cats:[] },` +
-    `   // TODO: set categories`);
-
-  const lines = [...kept.map((e) => `${e.line},`), ...fresh];
-  const next = `const VIDEOS = [\n${lines.join('\n')}\n];`;
-
-  const { open, close } = readList(source);
-  source = source.slice(0, open) + next + source.slice(close + 2);
-  fs.writeFileSync(SCRIPT, source);
+  const gone = new Set(removed);
+  const next = [
+    ...entries.filter((e) => !gone.has(e.file)),
+    ...added.map((name) => ({ file: name, title: guessTitle(name), cats: [] })),
+  ];
+  fs.writeFileSync(SCRIPT, writeVideos(source, next));
 }
 
 /* ── report ────────────────────────────────────────────────────────── */
@@ -178,7 +187,8 @@ if (added.length) {
   console.log(`  + added to script.js: ${added.join(', ')}`);
   console.log(`    give them titles and cats — they show under "All" until you do`);
 }
-if (removed.length) console.log(`  - removed: ${removed.join(', ')}`);
+if (removed.length) console.log(`  - delisted (no encode and no master): ${removed.join(', ')}`);
+if (archived.length) console.log(`  · ${archived.length} published from the encode (master not on this disk)`);
 if (skipped.length) console.log(`  ~ ignored duplicates: ${skipped.join(', ')}`);
 if (warned.length) {
   console.log(`  ! awkward filenames (they become %20 etc. in the URL): ${warned.join(', ')}`);

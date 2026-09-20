@@ -4,6 +4,16 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
+# launchd starts the admin server with an absolute node path but a minimal
+# PATH (/usr/bin:/bin:/usr/sbin:/sbin), so `node` and `npx` are not on it.
+# Publishing from the admin shells out to this script and died on
+# "node: command not found". Put the usual Homebrew bins back first.
+case ":$PATH:" in
+  *:/opt/homebrew/bin:*) ;;
+  *) PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"; export PATH ;;
+esac
+command -v node >/dev/null || { echo "build.sh: node not found on PATH ($PATH)" >&2; exit 1; }
+
 # Pick up anything new in assets/videos/ before packaging.
 # Skip with SKIP_SYNC=1 if you only want to repackage.
 if [ "${SKIP_SYNC:-0}" != "1" ]; then

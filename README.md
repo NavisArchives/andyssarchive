@@ -137,8 +137,30 @@ drag it into a new order, choose which one the carousel opens on, publish.**
 - **Save** writes `script.js`. **Save & publish** also runs `build.sh` and `wrangler deploy`.
 - **Revert** throws away unsaved edits and reloads from `script.js`.
 
-It binds to **127.0.0.1** and has no login, because nothing outside this Mac can reach it.
-Don't expose it through a tunnel or change the host without adding authentication first.
+### Password
+
+The admin asks for a password on first visit. It is read from `ADMIN_PASSWORD` in **`.env` at
+the repo root**, which is git-ignored — the password is never in the repo. Without it the server
+refuses to start. To change it, edit `.env` and restart.
+
+```
+ADMIN_PASSWORD=your-password
+```
+
+Sessions are held in memory, so restarting the server signs you out, as does the **Lock** button.
+
+### Two guards on saving
+
+- **Stale writes are refused.** Every page carries a fingerprint of the `script.js` it loaded.
+  If the file changed since then — you edited it by hand, or a second admin tab saved first —
+  the save is rejected with "reload before saving" instead of silently overwriting the newer
+  version. Reload, redo the edit, save.
+- **An empty video list is refused.** The UI never sends one, so it can only mean a bug or a
+  stray request, and accepting it would blank the whole carousel.
+
+It still binds to **127.0.0.1**, and that remains the real protection: the session cookie is not
+marked `Secure`, because there is no TLS on localhost. If you ever expose this through a tunnel,
+put HTTPS in front of it first.
 
 ### Why it's local and not a page on the site
 

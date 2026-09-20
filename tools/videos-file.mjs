@@ -68,5 +68,16 @@ export function readCategories(source) {
     .map((m) => ({ id: unq(m[1]), label: unq(m[2]) }));
 }
 
+/** replace the CATEGORIES array; 'all' is always kept first */
+export function writeCategories(source, cats) {
+  const open = source.indexOf('const CATEGORIES = [');
+  if (open === -1) throw new Error('could not find `const CATEGORIES = [` in script.js');
+  const close = source.indexOf('];', open);
+  const rows = [{ id: 'all', label: 'All' }, ...cats.filter((c) => c.id !== 'all')];
+  const w = Math.max(...rows.map((c) => q(c.id).length + 1));
+  const lines = rows.map((c) => `  { id:${`${q(c.id)},`.padEnd(w + 1)} label:${q(c.label)} },`);
+  return source.slice(0, open) + `const CATEGORIES = [\n${lines.join('\n')}\n];` + source.slice(close + 2);
+}
+
 export const load = (p) => fs.readFileSync(p, 'utf8');
 export const save = (p, s) => fs.writeFileSync(p, s);

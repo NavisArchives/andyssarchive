@@ -76,6 +76,9 @@ input[type=text]:focus{outline:2px solid var(--ink);outline-offset:1px;border-co
   <button class="btn btn--ghost" id="revert">Revert</button>
   <button class="btn" id="save">Save</button>
   <button class="btn btn--dark" id="deploy">Save &amp; publish</button>
+  <form method="POST" action="/api/logout" style="margin:0">
+    <button class="btn btn--ghost" type="submit" title="Sign out">Lock</button>
+  </form>
 </div>
 
 <main>
@@ -88,7 +91,13 @@ input[type=text]:focus{outline:2px solid var(--ink);outline-offset:1px;border-co
     <input type="file" id="file" accept="video/*" multiple hidden />
   </div>
 
-  <h2 style="margin-top:30px">Videos — drag to reorder</h2>
+  <h2 style="margin-top:30px;display:flex;align-items:center;gap:10px">
+    <span>Videos — drag to reorder</span>
+    <span class="spacer" style="flex:1"></span>
+    <input type="text" id="newtag" placeholder="new tag…" style="width:150px;padding:5px 11px;
+      font-size:12px;text-transform:none;letter-spacing:normal">
+    <button class="btn btn--ghost" id="addtag" style="padding:5px 14px;font-size:12px">Add tag</button>
+  </h2>
   <ul id="list"></ul>
 
   <div id="log"></div>
@@ -100,6 +109,7 @@ let state = null;      // as loaded from the server
 let videos = [];       // working copy
 let featured = null;
 let clean = '';        // snapshot for the dirty check
+let version = null;    // fingerprint of the script.js this page loaded
 
 const snapshot = () => JSON.stringify({ videos, featured });
 const isDirty = () => snapshot() !== clean;
@@ -119,6 +129,7 @@ async function api(path, opts) {
 
 function adopt(s) {
   state = s;
+  version = s.version;
   videos = s.videos.map((v) => ({ ...v, cats: [...v.cats] }));
   featured = s.featured;
   clean = snapshot();
@@ -240,12 +251,32 @@ async function upload(files) {
   $('#file').value = '';
 }
 
+/* ── add a tag ─────────────────────────────────────────────────────── */
+async function addTag() {
+  const input = $('#newtag');
+  const label = input.value.trim();
+  if (!label) return;
+  try {
+    // adding a tag rewrites script.js, so fold in any pending edits first
+    if (isDirty()) await save();
+    adopt(await api('/api/category', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ label }),
+    }));
+    input.value = '';
+    log(`added the "${label}" tag — it only shows on the site once a video uses it`);
+  } catch (e) { log(`✗ ${e.message}`); }
+}
+$('#addtag').addEventListener('click', addTag);
+$('#newtag').addEventListener('keydown', (e) => { if (e.key === 'Enter') addTag(); });
+
 /* ── save / publish ────────────────────────────────────────────────── */
 async function save() {
   const r = await api('/api/save', {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ videos, featured }),
+    body: JSON.stringify({ videos, featured, version }),
   });
   adopt(r);
   return r;

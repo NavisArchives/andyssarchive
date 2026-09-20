@@ -22,8 +22,9 @@ mkdir -p dist/assets/photos dist/assets/videos
 cp -R assets/photos/web   dist/assets/photos/web
 cp -R assets/videos/web   dist/assets/videos/web
 
-# strip junk that sneaks in from Finder
-find dist -name '.DS_Store' -delete
+# strip junk: Finder metadata, and the .sb-* sidecars the macOS sandbox
+# leaves behind when a file is removed or replaced mid-operation
+find dist \( -name '.DS_Store' -o -name '*.sb-*' -o -name '*.part' \) -delete
 
 echo "dist/ built — $(du -sh dist | cut -f1), $(find dist -type f | wc -l | tr -d ' ') files"
 big=$(find dist -type f -size +25M)

@@ -12,7 +12,7 @@
    cats  : any of the chip ids in CATEGORIES below
 ---------------------------------------------------------------- */
 const VIDEOS = [
-  { file:'Andy_YSL_Reel_V3',     title:'Yves Saint Laurent',        cats:[] },
+  { file:'Andy_YSL_Reel_V3',     title:'Yves Saint Laurent',        cats:['perfume'] },
   { file:'C1_Armani_V1',         title:'Emporio Armani · Signature Scent', cats:['perfume','fashion','beauty'] },
   { file:'BIOTHERM_V1_NT',       title:'Biotherm · Life Plankton',  cats:['beauty'] },
   { file:'Biotherm_Final',       title:'Biotherm · Sunday Selfcare', cats:['beauty','lifestyle'] },

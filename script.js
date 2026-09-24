@@ -36,6 +36,11 @@ const VIDEOS = [
   { file:'C_ARMANI_V1C',         title:'Emporio Armani · Stronger With You', cats:['perfume'] },
   { file:'C_THEPERFUMIST_V2',    title:'The Perfumist · GRWM Beach Edition', cats:['perfume','beauty','lifestyle'] },
   { file:'C_kruidvat_V2',        title:'Kruidvat · Sun Essentials', cats:['beauty','lifestyle'] },
+  { file:'02-JEANS-TXT',         title:'ZEB · Full Jeans Outfit', cats:['fashion'] },
+  { file:'Wear',                 title:'Wear Store · Midseason Outfit', cats:['fashion'] },
+  { file:'ZEBxANDY3',            title:'FILA · Ready for the Cold', cats:['fashion'] },
+  { file:'ZEBxAndy5',            title:'Editorial Styling', cats:['fashion','lifestyle'] },
+  { file:'ZEBxANDY5.extra',      title:'Editorial Styling II', cats:['fashion','lifestyle'] },
 ];
 
 /* ── 2. Filter chips (words only, no icons) ───────────────── */

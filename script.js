@@ -138,6 +138,32 @@ const catLabel = (c) => (T.cats && T.cats[c.id]) || c.label;
 const asset = (path) => (path.startsWith('/') ? path : '/' + path);
 
 /* ============================================================
+   Image recovery
+
+   A poster that fails once used to stay broken for the life of the page:
+   nothing retried it, so the card sat there showing its alt text next to a
+   broken-image icon. A request dropped mid-deploy or on a flaky phone
+   connection was enough to do it.
+
+   `error` does not bubble, but it does capture — so one listener on the
+   document covers every image on the page, including the cards, photos and
+   logos that are injected later. Retry once past the cache; if the second
+   attempt fails too, hide the element so the card falls back to its own
+   background rather than advertising the failure.
+   ============================================================ */
+document.addEventListener('error', (e) => {
+  const img = e.target;
+  if (!(img instanceof HTMLImageElement) || !img.getAttribute('src')) return;
+
+  if (img.dataset.retried) { img.classList.add('img--failed'); return; }
+  img.dataset.retried = '1';
+
+  const url = new URL(img.getAttribute('src'), location.href);
+  url.searchParams.set('retry', Date.now());
+  img.src = url.pathname + url.search;
+}, true);   // capture: error events from <img> never reach a bubbling listener
+
+/* ============================================================
    Header — glass pill condenses on scroll
    ============================================================ */
 (() => {

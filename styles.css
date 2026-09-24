@@ -760,3 +760,6 @@ ol,ul{list-style:none;padding:0}
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .rail{scroll-behavior:auto}
 }
+
+/* an image that failed twice — hide it rather than show a broken icon */
+.img--failed{visibility:hidden}

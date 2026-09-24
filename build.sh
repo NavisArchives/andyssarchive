@@ -24,6 +24,13 @@ rm -rf dist
 mkdir -p dist/assets
 
 cp index.html styles.css script.js _headers robots.txt sitemap.xml dist/
+
+# The FR and NL pages are generated from index.html on every build, so a copy
+# change made once cannot leave the other two languages stale.
+node tools/i18n.mjs
+mkdir -p dist/fr dist/nl
+cp fr/index.html dist/fr/index.html
+cp nl/index.html dist/nl/index.html
 cp ./*.txt dist/ 2>/dev/null || true       # robots + IndexNow key
 cp assets/og.jpg          dist/assets/og.jpg
 cp -R assets/logos        dist/assets/logos

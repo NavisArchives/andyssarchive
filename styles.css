@@ -198,6 +198,29 @@ ol,ul{list-style:none;padding:0}
 .navtray a:hover{background:rgba(71,46,47,.05)}
 .navtray__cta{margin-top:6px;background:var(--yellow);text-align:center;font-weight:400}
 
+/* Language switcher.
+   Lives inside .navpill__links so it inherits the row's nowrap + horizontal
+   scroll — adding a fourth grid column to .navpill would break the centring. */
+.langswitch{
+  display:inline-flex;align-items:center;gap:2px;flex:none;
+  margin-left:4px;padding-left:10px;
+  border-left:1px solid rgba(71,46,47,.14);
+}
+.langswitch a{
+  font-size:12px;font-weight:400;letter-spacing:.04em;
+  padding:3px 7px;border-radius:999px;opacity:.5;
+  transition:opacity .2s var(--ease),background-color .2s var(--ease);
+}
+.langswitch a:hover{opacity:1;background:rgba(71,46,47,.06)}
+.langswitch a[aria-current]{opacity:1;background:var(--yellow)}
+
+.langswitch--tray{
+  margin:8px 0 0;padding:8px 0 0;border-left:0;
+  border-top:1px solid rgba(71,46,47,.10);
+  justify-content:center;gap:4px;
+}
+.langswitch--tray a{font-size:14px;padding:8px 14px;opacity:.6}
+
 /* ============================================================
    Hero
    ============================================================ */
@@ -588,6 +611,7 @@ ol,ul{list-style:none;padding:0}
 .footer__act{display:flex;flex-direction:column;align-items:flex-end;gap:14px;flex:none}
 .footer__mail{font-weight:400}
 .footer__email{
+  display:inline-block;padding:3px 0;   /* lifts the tap target over 24px */
   font-size:clamp(14px,1.1vw,16px);font-weight:300;
   color:rgba(255,255,255,.72);
   text-decoration:underline;text-decoration-color:rgba(255,255,255,.28);
@@ -692,7 +716,11 @@ ol,ul{list-style:none;padding:0}
 
   .hero__foot{flex-direction:column;align-items:flex-start;gap:20px;margin-top:0}
   .hero__footLeft{gap:18px;align-items:flex-start;flex-direction:column}
-  .hero__socials{gap:14px}
+  /* Icon stays 20px, but the anchor keeps a 24px hit area — WCAG 2.5.8,
+     and Google reads tap-target size as a mobile usability signal. The
+     gap is trimmed so the spacing still looks the same. */
+  .hero__socials{gap:10px}
+  .hero__socials a{min-width:24px;min-height:24px;align-items:center;justify-content:center}
   .hero__socials svg{width:20px;height:20px}
 
   /* the hero is compact now, so don't leave a desktop-sized gap above the logos */

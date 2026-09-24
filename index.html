@@ -26,6 +26,13 @@
 
   <link rel="canonical" href="https://andyssarchives.com/" />
 
+  <!-- Every language points at every other one, including itself, and
+       x-default names the page Google serves when no locale matches. -->
+  <link rel="alternate" hreflang="en" href="https://andyssarchives.com/" />
+  <link rel="alternate" hreflang="fr" href="https://andyssarchives.com/fr/" />
+  <link rel="alternate" hreflang="nl" href="https://andyssarchives.com/nl/" />
+  <link rel="alternate" hreflang="x-default" href="https://andyssarchives.com/" />
+
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect width='20' height='20' rx='5' fill='%23fff0ad'/%3E%3Cpath d='M10 3.4 3.6 17h2.8l1.3-2.9h4.6l1.3 2.9h2.8L10 3.4Zm0 4.9 1.6 3.6H8.4L10 8.3Z' fill='%23472e2f'/%3E%3C/svg%3E" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -86,6 +93,11 @@
           <a href="#hosting">Hosting</a>
           <a href="#about">About</a>
           <a href="#contact">Contact</a>
+          <span class="langswitch" role="group" aria-label="Language">
+            <a href="/" hreflang="en" aria-current="true">EN</a>
+            <a href="/fr/" hreflang="fr">FR</a>
+            <a href="/nl/" hreflang="nl">NL</a>
+          </span>
         </div>
       </nav>
 
@@ -104,6 +116,11 @@
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
       <a class="navtray__cta" href="#contact">Let's Work Together!</a>
+      <span class="langswitch langswitch--tray" role="group" aria-label="Language">
+        <a href="/" hreflang="en" aria-current="true">EN</a>
+        <a href="/fr/" hreflang="fr">FR</a>
+        <a href="/nl/" hreflang="nl">NL</a>
+      </span>
     </div>
   </div>
 </header>

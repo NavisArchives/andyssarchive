@@ -97,8 +97,40 @@ const LOGOS = [
    the hero slot to a different piece of work.
 ---------------------------------------------------------------- */
 const FEATURED   = 'EFFECLAR_V1';          // La Roche-Posay · Effaclar
-const VIDEO_DIR  = 'assets/videos/web/';
-const POSTER_DIR = 'assets/posters/';
+const VIDEO_DIR  = '/assets/videos/web/';
+const POSTER_DIR = '/assets/posters/';
+
+/* ============================================================
+   UI language
+
+   The FR and NL pages are generated from this file's English source,
+   so the strings the script injects have to be translated here too.
+   Anything without a translation falls back to English — which is also
+   what a brand-new tag added from the admin gets until someone
+   translates it, rather than showing blank.
+   ============================================================ */
+const LANG = (document.documentElement.lang || 'en').slice(0, 2);
+
+const UI = {
+  fr: {
+    cats: { all:'Tout', beauty:'Beauté', fashion:'Mode', perfume:'Parfum',
+            travel:'Voyage', lifestyle:'Lifestyle', interview:'Interview',
+            haircare:'Cheveux', software:'Logiciel', voiceover:'Voix off' },
+    openMenu:'Ouvrir le menu', closeMenu:'Fermer le menu',
+    play:'Lire', unmute:'Activer le son', mute:'Couper le son',
+  },
+  nl: {
+    cats: { all:'Alles', beauty:'Beauty', fashion:'Mode', perfume:'Parfum',
+            travel:'Reizen', lifestyle:'Lifestyle', interview:'Interview',
+            haircare:'Haarverzorging', software:'Software', voiceover:'Voice-over' },
+    openMenu:'Menu openen', closeMenu:'Menu sluiten',
+    play:'Afspelen', unmute:'Geluid aan', mute:'Geluid uit',
+  },
+};
+const T = UI[LANG] || {};
+const t = (key, en) => T[key] || en;
+const catLabel = (c) => (T.cats && T.cats[c.id]) || c.label;
+const asset = (path) => (path.startsWith('/') ? path : '/' + path);
 
 /* ============================================================
    Header — glass pill condenses on scroll
@@ -128,7 +160,7 @@ const POSTER_DIR = 'assets/posters/';
   const setOpen = (open) => {
     trigger.setAttribute('aria-expanded', String(open));
     tray.hidden = !open;
-    trigger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    trigger.setAttribute('aria-label', open ? t('closeMenu','Close menu') : t('openMenu','Open menu'));
   };
   trigger.addEventListener('click', () => setOpen(tray.hidden));
   tray.addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
@@ -145,7 +177,7 @@ const POSTER_DIR = 'assets/posters/';
   const track = document.getElementById('marqueeTrack');
   if (!track) return;
   const half = LOGOS.map(l =>
-    `<div class="marquee__item"><img src="${l.src}" alt="${l.alt}" loading="lazy" decoding="async"></div>`
+    `<div class="marquee__item"><img src="${asset(l.src)}" alt="${l.alt}" loading="lazy" decoding="async"></div>`
   ).join('');
   track.innerHTML = half + half.replace(/alt="[^"]*"/g, 'alt="" aria-hidden="true"');
 
@@ -224,8 +256,8 @@ const POSTER_DIR = 'assets/posters/';
       el.dataset.index = String(i);
       el.innerHTML =
         `<img src="${POSTER_DIR}${v.file}.jpg" alt="${v.title}" loading="lazy" decoding="async">` +
-        `<button class="card__play" type="button" aria-label="Play ${v.title}"><span>${playIcon}</span></button>` +
-        `<button class="card__sound" type="button" aria-label="Unmute">${soundOff}</button>`;
+        `<button class="card__play" type="button" aria-label="${t('play','Play')} ${v.title}"><span>${playIcon}</span></button>` +
+        `<button class="card__sound" type="button" aria-label="${t('unmute','Unmute')}">${soundOff}</button>`;
       rail.appendChild(el);
       return el;
     });
@@ -343,7 +375,7 @@ const POSTER_DIR = 'assets/posters/';
     const syncSound = () => {
       if (!sound) return;
       sound.innerHTML = video.muted ? soundOff : soundOn;
-      sound.setAttribute('aria-label', video.muted ? 'Unmute' : 'Mute');
+      sound.setAttribute('aria-label', video.muted ? t('unmute','Unmute') : t('mute','Mute'));
     };
     video.play().then(syncSound).catch(() => {
       // autoplay policies: retry muted, then let the viewer unmute
@@ -365,7 +397,7 @@ const POSTER_DIR = 'assets/posters/';
         video.muted = !video.muted;
         const s = card.querySelector('.card__sound');
         s.innerHTML = video.muted ? soundOff : soundOn;
-        s.setAttribute('aria-label', video.muted ? 'Unmute' : 'Mute');
+        s.setAttribute('aria-label', video.muted ? t('unmute','Unmute') : t('mute','Mute'));
       }
       return;
     }
@@ -408,7 +440,7 @@ const POSTER_DIR = 'assets/posters/';
     filters.innerHTML = '<div class="filters__row">' + CATEGORIES
       .filter(c => c.id === 'all' || counts[c.id])
       .map(c =>
-        `<button class="chip" type="button" data-filter="${c.id}" aria-pressed="${c.id === 'all'}">${c.label}</button>`
+        `<button class="chip" type="button" data-filter="${c.id}" aria-pressed="${c.id === 'all'}">${catLabel(c)}</button>`
       ).join('') + '</div>';
 
     filters.addEventListener('click', (e) => {
@@ -434,7 +466,7 @@ const POSTER_DIR = 'assets/posters/';
   if (!rail) return;
 
   rail.innerHTML = PHOTOS.map(p =>
-    `<figure class="rail__item"><img src="${p.src}" alt="${p.alt}" loading="lazy" decoding="async"></figure>`
+    `<figure class="rail__item"><img src="${asset(p.src)}" alt="${p.alt}" loading="lazy" decoding="async"></figure>`
   ).join('');
 
   // start slightly scrolled so the first image bleeds off the left edge

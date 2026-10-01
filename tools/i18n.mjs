@@ -82,7 +82,7 @@ const TRANSLATIONS = [
    '<span>Tech</span><span>Bien-être</span><span>Lifestyle</span>',
    '<span>Tech</span><span>Wellness</span><span>Lifestyle</span>'],
   ['alt="Andy Huizenga, UGC creator"', 'alt="Andy Huizenga, créateur UGC"', 'alt="Andy Huizenga, UGC-creator"'],
-  ['aria-label="Brands I have worked with"', 'aria-label="Marques avec lesquelles j\'ai travaillé"', 'aria-label="Merken waarmee ik werkte"'],
+  ['id="brandsTitle">Brands I\'ve created for<', 'id="brandsTitle">Les marques pour lesquelles j\'ai créé<', 'id="brandsTitle">Merken waarvoor ik creëerde<'],
 
   /* ---- videos ---- */
   ['aria-label="Previous video"', 'aria-label="Vidéo précédente"', 'aria-label="Vorige video"'],

@@ -286,6 +286,8 @@ ol,ul{list-style:none;padding:0}
    ============================================================ */
 
 .brands{background:var(--paper);padding:48px 0;margin-top:var(--sec-gap)}
+.brands__title{margin:0 0 22px;padding:0 16px;text-align:center;
+  font-size:15px;line-height:1.4;font-weight:500;letter-spacing:.01em;color:var(--ink-70)}
 .marquee{height:56px;overflow:hidden;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
@@ -725,6 +727,7 @@ ol,ul{list-style:none;padding:0}
 
   /* the hero is compact now, so don't leave a desktop-sized gap above the logos */
   .brands{margin-top:40px;padding:26px 0}
+  .brands__title{margin-bottom:14px;font-size:14px}
   .marquee,.marquee__item{height:44px}
   /* logos run from the same left edge as the rest — fade only on the right */
   .marquee{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 86%,transparent);

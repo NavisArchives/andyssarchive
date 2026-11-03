@@ -55,3 +55,6 @@ tools/bin/
 /print/
 # local browser-tool cache
 .playwright-mcp/
+
+# Claude desktop launch config: machine-specific preview entries
+/.claude/launch.json

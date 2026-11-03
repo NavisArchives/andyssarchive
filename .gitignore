@@ -50,3 +50,8 @@ tools/bin/
 # macOS sandbox sidecars left behind by the Swift encoders. build.sh strips
 # them from dist/, but they must never reach git either.
 *.sb-*
+
+# Print files carry a phone number; they are not part of the public site.
+/print/
+# local browser-tool cache
+.playwright-mcp/

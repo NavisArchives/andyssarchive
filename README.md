@@ -196,7 +196,8 @@ local means one drag does the whole job.
 
 ## Deploying
 
-Live at **https://andyssarchives.com**, on Cloudflare Workers static assets
+Live at **https://ugc.andyssarchives.com**, on Cloudflare Workers static assets, as the Worker
+`andyssarchives-ugc`. The apex and `www` belong to the portfolio, which is a separate Worker
 (the account that owns the domain: `huizengaandy@gmail.com`).
 
 The project root is ~4.2 GB of masters, so you never deploy it directly. `build.sh` assembles
@@ -264,7 +265,7 @@ Verified in Google Search Console as a **URL-prefix property** for
   ```bash
   KEY=$(basename "$(ls ./*.txt | grep -v robots)" .txt)
   curl -sS -o /dev/null -w '%{http_code}\n' \
-    "https://api.indexnow.org/indexnow?url=https%3A%2F%2Fandyssarchives.com%2F&key=$KEY&keyLocation=https%3A%2F%2Fandyssarchives.com%2F$KEY.txt"
+    "https://api.indexnow.org/indexnow?url=https%3A%2F%2Fugc.andyssarchives.com%2F&key=$KEY&keyLocation=https%3A%2F%2Fugc.andyssarchives.com%2F$KEY.txt"
   ```
 
 Google's file-based verification does **not** work here: Workers static assets strips `.html`

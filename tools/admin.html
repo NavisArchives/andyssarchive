@@ -302,7 +302,7 @@ $('#deploy').addEventListener('click', async () => {
     log('building and publishing… this takes a minute', true);
     const r = await api('/api/deploy', { method: 'POST' });
     log(r.log.trim(), true);
-    log(r.ok ? '\n✓ live at https://andyssarchives.com' : '\n✗ publish failed', true);
+    log(r.ok ? '\n✓ live at https://ugc.andyssarchives.com' : '\n✗ publish failed', true);
   } catch (e) { log(`✗ ${e.message}`, true); }
   document.body.classList.remove('busy');
 });

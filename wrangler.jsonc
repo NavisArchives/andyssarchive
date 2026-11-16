@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "andyssarchives",
+  "name": "andyssarchives-ugc",
   "compatibility_date": "2026-09-19",
 
   // Pure static site: no Worker script, just the built folder.
@@ -9,11 +9,11 @@
     "directory": "./dist"
   },
 
-  // Custom Domains: Cloudflare provisions the DNS records and TLS cert itself
+  // Custom Domain: Cloudflare provisions the DNS record and TLS cert itself
   // because andyssarchives.com is a zone on this same account.
+  // The apex and www belong to the portfolio (Worker "andyssarchives").
   "routes": [
-    { "pattern": "andyssarchives.com", "custom_domain": true },
-    { "pattern": "www.andyssarchives.com", "custom_domain": true }
+    { "pattern": "ugc.andyssarchives.com", "custom_domain": true }
   ],
 
   "observability": {

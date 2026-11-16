@@ -219,10 +219,10 @@ function translate(src, lang) {
   swap('<html lang="en">', `<html lang="${htmlLang}">`, 'html lang');
 
   // this page's own canonical + OG url
-  swap('<link rel="canonical" href="https://andyssarchives.com/" />',
-       `<link rel="canonical" href="https://andyssarchives.com/${lang}/" />`, 'canonical');
-  swap('<meta property="og:url" content="https://andyssarchives.com/" />',
-       `<meta property="og:url" content="https://andyssarchives.com/${lang}/" />`, 'og:url');
+  swap('<link rel="canonical" href="https://ugc.andyssarchives.com/" />',
+       `<link rel="canonical" href="https://ugc.andyssarchives.com/${lang}/" />`, 'canonical');
+  swap('<meta property="og:url" content="https://ugc.andyssarchives.com/" />',
+       `<meta property="og:url" content="https://ugc.andyssarchives.com/${lang}/" />`, 'og:url');
 
   // locale: this language primary, the other two as alternates
   swap('<meta property="og:locale" content="en_GB" />', `<meta property="og:locale" content="${ogLocale}" />`, 'og:locale');
